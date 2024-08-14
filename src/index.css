@@ -15,4 +15,8 @@
     font-weight: 900;
     font-style: italic;
   }
+
+  body {
+    @apply bg-[#f8f8f8];
+  }
 }
