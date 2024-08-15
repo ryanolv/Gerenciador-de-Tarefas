@@ -9,7 +9,7 @@ function Button({ children, variant = "primary" }: ButtonProps) {
   const getVariantClasses = () => {
     if (variant === "primary") return "bg-[#00ADB5] text-white";
 
-    if (variant === "ghost") return "bg-transparent txt-[#818181]";
+    if (variant === "ghost") return "bg-transparent text-[#818181]";
   };
 
   return (

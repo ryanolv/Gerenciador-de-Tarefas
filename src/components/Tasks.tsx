@@ -18,7 +18,6 @@ function Tasks() {
 
   return (
     <div className="w-full px-8 py-16">
-      {/* Cabeçalho */}
       <header className="flex justify-between">
         <div>
           <span className="text-xs font-semibold text-[#00ADB5]">
@@ -27,7 +26,7 @@ function Tasks() {
           <h2>Minhas tarefas</h2>
         </div>
 
-        <div className="item-center flex gap-3">
+        <div className="item-center mb-4 flex gap-3">
           <Button variant="ghost">
             <TrashIcon /> Limpar Tarefas
           </Button>
