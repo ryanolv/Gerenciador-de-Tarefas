@@ -77,7 +77,10 @@ function Tasks() {
             <AddIcon /> Adicionar Tarefa
           </Button>
 
-          <AddTaskDialog isOpen={addTaskDialogIsOpen} />
+          <AddTaskDialog
+            isOpen={addTaskDialogIsOpen}
+            handleClose={() => setAddTaskDialogIsOpen(false)}
+          />
         </div>
       </header>
 
