@@ -2,10 +2,11 @@ import React from "react";
 
 interface ButtonProps {
   children: React.ReactNode;
-  variant: "primary" | "ghost";
+  variant?: "primary" | "ghost";
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
-function Button({ children, variant = "primary" }: ButtonProps) {
+function Button({ children, variant = "primary", onClick }: ButtonProps) {
   const getVariantClasses = () => {
     if (variant === "primary") return "bg-[#00ADB5] text-white";
 
@@ -15,6 +16,7 @@ function Button({ children, variant = "primary" }: ButtonProps) {
   return (
     <button
       className={`flex items-center gap-2 rounded-md px-3 py-1 text-xs transition hover:opacity-90 ${getVariantClasses()}`}
+      onClick={onClick}
     >
       {children}
     </button>

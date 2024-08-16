@@ -3,7 +3,7 @@ export interface TasksProps {
   title: string;
   description: string;
   time: "morning" | "afternoon" | "evening";
-  status: "to_do" | "doing" | "done";
+  status: "not_started" | "in_progress" | "done";
 }
 
 export const initialTasks: TasksProps[] = [
@@ -19,13 +19,13 @@ export const initialTasks: TasksProps[] = [
     title: "arrumar casa",
     description: "lavar banheiro e passar pano",
     time: "afternoon",
-    status: "doing",
+    status: "in_progress",
   },
   {
     id: 3,
     title: "meditar",
     description: "meditar para descansar do dia",
     time: "evening",
-    status: "to_do",
+    status: "not_started",
   },
 ];

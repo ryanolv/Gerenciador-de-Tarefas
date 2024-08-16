@@ -1,7 +1,7 @@
 import React from "react";
 
 interface TasksSeparatorProps {
-  icon: React.ReactElement;
+  icon: React.ReactNode;
   title: string;
 }
 

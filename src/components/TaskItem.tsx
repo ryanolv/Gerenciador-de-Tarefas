@@ -2,29 +2,37 @@ import { TasksProps } from "../constants/tasks";
 import CheckIcon from "../assets/icons/check.svg?react";
 import LoaderIcon from "../assets/icons/loader-circle.svg?react";
 import DetailsIcon from "../assets/icons/details.svg?react";
+import TrashIcon from "../assets/icons/trash.svg?react";
+import Button from "./Button";
 
 interface TaskItemProps {
   task: TasksProps;
+  handleCheckboxClick: (taskId: number) => void;
+  handleDeleteClick: (taskId: number) => void;
 }
 
-function TaskItem({ task }: TaskItemProps) {
+function TaskItem({
+  task,
+  handleCheckboxClick,
+  handleDeleteClick,
+}: TaskItemProps) {
   const getStatusClasses = () => {
     if (task.status === "done") {
       return "bg-[#00ADB5]  text-[#00ADB5]";
     }
 
-    if (task.status === "doing") {
+    if (task.status === "in_progress") {
       return "bg-[#FFAA04] text-[#FFAA04]";
     }
 
-    if (task.status === "to_do") {
+    if (task.status === "not_started") {
       return "bg-[#35383E] bg-opacity-10 text-[#35383E]";
     }
   };
 
   return (
     <div
-      className={`flex justify-between gap-2 rounded-lg bg-opacity-10 px-4 py-3 text-sm ${getStatusClasses()}`}
+      className={`flex justify-between gap-2 rounded-lg bg-opacity-10 px-4 py-3 text-sm transition ${getStatusClasses()}`}
     >
       <div className="flex items-center gap-3">
         <label
@@ -34,16 +42,25 @@ function TaskItem({ task }: TaskItemProps) {
             type="checkbox"
             checked={task.status === "done"}
             className="absolute h-full cursor-pointer opacity-0"
+            onChange={() => handleCheckboxClick(task.id)}
           />
 
           {task.status === "done" && <CheckIcon />}
-          {task.status === "doing" && <LoaderIcon className="animate-spin" />}
+          {task.status === "in_progress" && (
+            <LoaderIcon className="animate-spin" />
+          )}
         </label>
         {task.title}
       </div>
-      <a href="" className="hover:opacity-75">
-        <DetailsIcon />
-      </a>
+
+      <div className="flex items-center gap-2">
+        <Button variant="ghost" onClick={() => handleDeleteClick(task.id)}>
+          <TrashIcon className="text-[#9A9C9F]" />
+        </Button>
+        <a href="" className="hover:opacity-75">
+          <DetailsIcon />
+        </a>
+      </div>
     </div>
   );
 }
