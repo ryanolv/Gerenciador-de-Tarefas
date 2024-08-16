@@ -33,9 +33,11 @@ function TaskItem({
     >
       <div className="flex items-center gap-3">
         <label
-          className={`reative flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg ${getStatusClasses()}`}
+          htmlFor={task.title}
+          className={`relative flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg ${getStatusClasses()}`}
         >
           <input
+            id={task.title}
             type="checkbox"
             checked={task.status === "done"}
             className="absolute h-full cursor-pointer opacity-0"
