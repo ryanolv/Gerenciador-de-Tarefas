@@ -1,19 +1,44 @@
+import "./AddTaskDialog.css";
+
+import { useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { CSSTransition } from "react-transition-group";
-import Input from "./Input";
+import { v4 } from "uuid";
+
 import Button from "./Button";
-import { useRef } from "react";
-import "./AddTaskDialog.css";
+import Input from "./Input";
 import TimeSelect from "./TimeSelect";
+
+import { TasksProps } from "../constants/tasks";
 
 interface AddTaskDialogProps {
   isOpen: boolean;
-  handleClose: () => any;
+  handleClose: () => void;
+  handleSubmit: (task: TasksProps) => void;
 }
 
-function AddTaskDialog({ isOpen, handleClose }: AddTaskDialogProps) {
+function AddTaskDialog({
+  isOpen,
+  handleClose,
+  handleSubmit,
+}: AddTaskDialogProps) {
+  const [title, setTitle] = useState<any>();
+  const [time, setTime] = useState<any>();
+  const [description, setDescription] = useState<any>();
+
   const nodeRef = useRef<null | HTMLParagraphElement>(null);
   if (!isOpen) return null;
+
+  const handleSaveClick = () => {
+    handleSubmit({
+      id: v4(),
+      title,
+      time,
+      description,
+      status: "not_started",
+    });
+    handleClose();
+  };
 
   return (
     <CSSTransition
@@ -42,14 +67,21 @@ function AddTaskDialog({ isOpen, handleClose }: AddTaskDialogProps) {
                   id="title"
                   label="Título"
                   placeholder="Insira o título da tarefa"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
                 />
 
-                <TimeSelect />
+                <TimeSelect
+                  value={time}
+                  onChange={(e: any) => setTime(e.target.value)}
+                />
 
                 <Input
                   id="description"
                   label="Descrição"
                   placeholder="Descreva a tarefa"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
                 />
                 <div className="flex gap-3">
                   <Button
@@ -60,7 +92,11 @@ function AddTaskDialog({ isOpen, handleClose }: AddTaskDialogProps) {
                   >
                     Cancelar
                   </Button>
-                  <Button size="large" className="w-full">
+                  <Button
+                    size="large"
+                    className="w-full"
+                    onClick={handleSaveClick}
+                  >
                     Salvar
                   </Button>
                 </div>

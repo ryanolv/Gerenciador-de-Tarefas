@@ -55,6 +55,11 @@ function Tasks() {
     toast.success("Tarefa deletada com sucesso!");
   };
 
+  const handleAddTask = (task: TasksProps) => {
+    setTasks([...tasks, task]);
+    toast.success("Tarefa adicionada com sucesso!");
+  };
+
   return (
     <div className="w-full space-y-6 px-8 py-16">
       <header className="flex justify-between">
@@ -80,6 +85,7 @@ function Tasks() {
           <AddTaskDialog
             isOpen={addTaskDialogIsOpen}
             handleClose={() => setAddTaskDialogIsOpen(false)}
+            handleSubmit={handleAddTask}
           />
         </div>
       </header>

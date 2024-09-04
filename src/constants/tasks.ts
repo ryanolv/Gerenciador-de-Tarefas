@@ -1,5 +1,5 @@
 export interface TasksProps {
-  id: number;
+  id: number | string;
   title: string;
   description: string;
   time: "morning" | "afternoon" | "evening";
