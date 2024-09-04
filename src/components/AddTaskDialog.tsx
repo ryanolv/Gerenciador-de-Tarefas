@@ -1,6 +1,6 @@
 import "./AddTaskDialog.css";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { CSSTransition } from "react-transition-group";
 import { v4 } from "uuid";
@@ -25,6 +25,14 @@ function AddTaskDialog({
   const [title, setTitle] = useState<any>();
   const [time, setTime] = useState<any>("morning");
   const [description, setDescription] = useState<any>();
+
+  useEffect(() => {
+    if (!isOpen) {
+      setTitle("");
+      setTime("morning");
+      setDescription("");
+    }
+  }, [isOpen]);
 
   const nodeRef = useRef<null | HTMLParagraphElement>(null);
   if (!isOpen) return null;
