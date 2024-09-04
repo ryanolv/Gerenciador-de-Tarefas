@@ -38,6 +38,10 @@ function AddTaskDialog({
   if (!isOpen) return null;
 
   const handleSaveClick = () => {
+    if (!title.trim() || !description.trim()) {
+      return alert("Preencha todos os campos.");
+    }
+
     handleSubmit({
       id: v4(),
       title,
