@@ -23,7 +23,7 @@ function AddTaskDialog({
   handleSubmit,
 }: AddTaskDialogProps) {
   const [title, setTitle] = useState<any>();
-  const [time, setTime] = useState<any>();
+  const [time, setTime] = useState<any>("morning");
   const [description, setDescription] = useState<any>();
 
   const nodeRef = useRef<null | HTMLParagraphElement>(null);
