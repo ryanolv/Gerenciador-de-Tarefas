@@ -7,21 +7,35 @@ import {
   MoonIcon,
 } from "../assets/icons";
 import TasksSeparator from "./TasksSeparator";
-import { initialTasks, TasksProps } from "../constants/tasks";
-import { useState } from "react";
+import { TasksProps } from "../constants/tasks";
+import { useEffect, useState } from "react";
 import TaskItem from "./TaskItem";
 import { toast } from "sonner";
 import AddTaskDialog from "./AddTaskDialog";
 
 function Tasks() {
-  const [tasks, setTasks] = useState<TasksProps[]>(initialTasks);
+  const [tasks, setTasks] = useState<TasksProps[]>([]);
   const [addTaskDialogIsOpen, setAddTaskDialogIsOpen] = useState(false);
+
+  useEffect(() => {
+    const fetchTasks = async () => {
+      // pegar os dados da API
+      const response = await fetch("http://localhost:3000/tasks", {
+        method: "GET",
+      });
+
+      const tasks = await response.json();
+      // atualizar o state "tasks"
+      setTasks(tasks);
+    };
+
+    fetchTasks();
+  }, []);
 
   const morningTasks = tasks.filter((task) => task.time === "morning");
   const afternoonTasks = tasks.filter((task) => task.time === "afternoon");
   const eveningTasks = tasks.filter((task) => task.time === "evening");
 
-  // TODO: fix the input click problem
   const handleTaskCheckboxClick = (taskId: number) => {
     const newTasks: TasksProps[] = tasks.map((task) => {
       if (task.id !== taskId) {
