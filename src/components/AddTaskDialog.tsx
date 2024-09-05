@@ -107,7 +107,7 @@ function AddTaskDialog({
               <h2 className="txt-brand-dark-blue text-xl font-semibold">
                 Nova tarefa
               </h2>
-              <p className="text-brand-text-gray mb-4 mt-1">
+              <p className="mb-4 mt-1 text-brand-text-gray">
                 Insira as informações abaixo
               </p>
 
@@ -137,7 +137,7 @@ function AddTaskDialog({
 
                 <div className="flex gap-3">
                   <Button
-                    variant="secundary"
+                    color="secundary"
                     size="large"
                     className="w-full"
                     onClick={handleClose}

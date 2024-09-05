@@ -5,7 +5,7 @@ function Sidebar() {
   return (
     <div className="h-screen w-72 bg-white">
       <div className="space-y-4 px-8 py-6">
-        <h1 className="text xl text-brand-primary font-semibold">
+        <h1 className="text xl font-semibold text-brand-primary">
           Task Manager
         </h1>
         <p>
@@ -15,11 +15,11 @@ function Sidebar() {
       </div>
 
       <div className="flex flex-col gap-2 p-2">
-        <SidebarButton variant="unselected">
+        <SidebarButton color="unselected">
           <HomeIcon />
           Início
         </SidebarButton>
-        <SidebarButton variant="selected">
+        <SidebarButton color="selected">
           <TasksIcon />
           Minhas Tarefas
         </SidebarButton>

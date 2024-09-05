@@ -1,8 +1,9 @@
 import React from "react";
+import { tv } from "tailwind-variants";
 
 interface ButtonProps {
   children: React.ReactNode;
-  variant?: "primary" | "secundary" | "ghost";
+  color?: "primary" | "secundary" | "ghost";
   size?: "small" | "large";
   className?: any;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
@@ -10,30 +11,32 @@ interface ButtonProps {
 
 function Button({
   children,
-  variant = "primary",
+  color = "primary",
   size = "small",
   className,
   onClick,
 }: ButtonProps) {
-  const getVariantClasses = () => {
-    if (variant === "primary") return "bg-brand-primary text-white";
-
-    if (variant === "ghost") return "bg-transparent text-brand-dark-gray";
-
-    if (variant === "secundary")
-      return "bg-brand-light-gray text-brand-dark-blue";
-  };
-
-  const getSizeClasses = () => {
-    if (size === "small") return "py-1 text-xs";
-    if (size === "large") return "py-2 text-sm";
-  };
+  const button = tv({
+    base: "flex items-center justify-center gap-2 rounded-md px-3 transition hover:opacity-90",
+    variants: {
+      color: {
+        primary: "bg-brand-primary text-white",
+        ghost: "bg-transparent text-brand-dark-gray",
+        secundary: "bg-brand-light-gray text-brand-dark-blue",
+      },
+      size: {
+        small: "py-1 text-xs",
+        large: "py-2 text-sm",
+      },
+    },
+    defaultVariants: {
+      color: "primary",
+      size: "small",
+    },
+  });
 
   return (
-    <button
-      className={`flex items-center justify-center gap-2 rounded-md px-3 transition hover:opacity-90 ${getVariantClasses()} ${getSizeClasses()} ${className}`}
-      onClick={onClick}
-    >
+    <button className={button({ color, size, className })} onClick={onClick}>
       {children}
     </button>
   );

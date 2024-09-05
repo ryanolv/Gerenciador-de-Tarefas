@@ -64,21 +64,18 @@ function Tasks() {
     <div className="w-full space-y-6 px-8 py-16">
       <header className="flex justify-between">
         <div>
-          <span className="text-brand-primary text-xs font-semibold">
+          <span className="text-xs font-semibold text-brand-primary">
             Minhas tarefas
           </span>
           <h2>Minhas tarefas</h2>
         </div>
 
         <div className="item-center mb-4 flex gap-3">
-          <Button variant="ghost">
+          <Button color="ghost">
             <TrashIcon /> Limpar Tarefas
           </Button>
 
-          <Button
-            variant="primary"
-            onClick={() => setAddTaskDialogIsOpen(true)}
-          >
+          <Button color="primary" onClick={() => setAddTaskDialogIsOpen(true)}>
             <AddIcon /> Adicionar Tarefa
           </Button>
 
