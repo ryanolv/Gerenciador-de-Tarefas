@@ -1,6 +1,6 @@
 import "./AddTaskDialog.css";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { CSSTransition } from "react-transition-group";
 import { v4 } from "uuid";
@@ -27,24 +27,21 @@ function AddTaskDialog({
   handleClose,
   handleSubmit,
 }: AddTaskDialogProps) {
-  const [title, setTitle] = useState<any>();
-  const [time, setTime] = useState<any>("morning");
-  const [description, setDescription] = useState<any>();
   const [errors, setErrors] = useState<ErrorProps[]>([]);
 
-  useEffect(() => {
-    if (!isOpen) {
-      setTitle("");
-      setTime("morning");
-      setDescription("");
-    }
-  }, [isOpen]);
+  const nodeRef = useRef<HTMLInputElement>(null);
+  const titleRef = useRef<HTMLInputElement>(null);
+  const descriptionRef = useRef<HTMLInputElement>(null);
+  const timeRef = useRef<HTMLSelectElement>(null);
 
-  const nodeRef = useRef<null | HTMLParagraphElement>(null);
-  if (!isOpen) return null;
+  // if (!isOpen) return null;
 
   const handleSaveClick = () => {
     const newErrors: ErrorProps[] = [];
+
+    const title = titleRef.current!.value;
+    const description = descriptionRef.current!.value;
+    const time = timeRef.current!.value;
 
     if (!title.trim()) {
       newErrors.push({
@@ -96,7 +93,7 @@ function AddTaskDialog({
     <CSSTransition
       nodeRef={nodeRef}
       in={isOpen}
-      timeout={5000}
+      timeout={500}
       className="add-task-dialog"
       unmountOnExit
     >
@@ -119,16 +116,11 @@ function AddTaskDialog({
                   id="title"
                   label="Título"
                   placeholder="Insira o título da tarefa"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
                   errorMessage={titleError?.message}
+                  ref={titleRef}
                 />
 
-                <TimeSelect
-                  value={time}
-                  onChange={(e: any) => setTime(e.target.value)}
-                  errorMessage={timeError?.message}
-                />
+                <TimeSelect errorMessage={timeError?.message} ref={timeRef} />
                 {timeError && (
                   <p className="text-left text-xs text-red-500">
                     {timeError.message}
@@ -139,9 +131,8 @@ function AddTaskDialog({
                   id="description"
                   label="Descrição"
                   placeholder="Descreva a tarefa"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
                   errorMessage={descriptionError?.message}
+                  ref={descriptionRef}
                 />
 
                 <div className="flex gap-3">

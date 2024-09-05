@@ -2,7 +2,7 @@ export interface TasksProps {
   id: number | string;
   title: string;
   description: string;
-  time: "morning" | "afternoon" | "evening";
+  time: string;
   status: "not_started" | "in_progress" | "done";
 }
 

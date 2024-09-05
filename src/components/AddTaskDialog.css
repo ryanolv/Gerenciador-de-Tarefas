@@ -4,7 +4,7 @@
 
 .add-task-dialog-enter-active {
   opacity: 1;
-  transition: opacity 5000ms;
+  transition: opacity 500ms;
 }
 
 .add-task-dialog-exit {
@@ -13,5 +13,5 @@
 
 .add-task-dialog-exit-active {
   opacity: 0;
-  transition: opacity 5000ms;
+  transition: opacity 500ms;
 }
