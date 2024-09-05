@@ -104,10 +104,10 @@ function AddTaskDialog({
             className="fixed bottom-0 left-0 top-0 flex h-screen w-screen items-center justify-center backdrop-blur"
           >
             <div className="rounded-xl bg-white p-5 text-center shadow">
-              <h2 className="txt-[#35383E] text-xl font-semibold">
+              <h2 className="txt-brand-dark-blue text-xl font-semibold">
                 Nova tarefa
               </h2>
-              <p className="mb-4 mt-1 text-[#9A9C9F]">
+              <p className="text-brand-text-gray mb-4 mt-1">
                 Insira as informações abaixo
               </p>
 

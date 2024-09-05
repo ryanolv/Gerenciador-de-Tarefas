@@ -16,11 +16,12 @@ function Button({
   onClick,
 }: ButtonProps) {
   const getVariantClasses = () => {
-    if (variant === "primary") return "bg-[#00ADB5] text-white";
+    if (variant === "primary") return "bg-brand-primary text-white";
 
-    if (variant === "ghost") return "bg-transparent text-[#818181]";
+    if (variant === "ghost") return "bg-transparent text-brand-dark-gray";
 
-    if (variant === "secundary") return "bg-[#EEEEEE] text-[#35383E]";
+    if (variant === "secundary")
+      return "bg-brand-light-gray text-brand-dark-blue";
   };
 
   const getSizeClasses = () => {
