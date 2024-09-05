@@ -1,5 +1,6 @@
 import React from "react";
 import InputLabel from "./InputLabel";
+import InputErrorMessage from "./InputErrorMessage";
 
 interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
   errorMessage?: string;
@@ -22,7 +23,7 @@ function TimeSelectRef(props: SelectProps, ref: React.Ref<HTMLSelectElement>) {
       </select>
 
       {props.errorMessage && (
-        <p className="text-left text-xs text-red-500">{props.errorMessage}</p>
+        <InputErrorMessage>{props.errorMessage}</InputErrorMessage>
       )}
     </div>
   );
