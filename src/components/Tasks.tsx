@@ -36,7 +36,7 @@ function Tasks() {
   const afternoonTasks = tasks.filter((task) => task.time === "afternoon");
   const eveningTasks = tasks.filter((task) => task.time === "evening");
 
-  const handleTaskCheckboxClick = (taskId: number) => {
+  const handleTaskCheckboxClick = (taskId: number | string) => {
     const newTasks: TasksProps[] = tasks.map((task) => {
       if (task.id !== taskId) {
         return task;
@@ -62,7 +62,15 @@ function Tasks() {
     setTasks(newTasks);
   };
 
-  const handleTaskDeleteClick = (taskId: number) => {
+  const handleTaskDeleteClick = async (taskId: number | string) => {
+    const response = await fetch(`http://localhost:3000/tasks/${taskId}`, {
+      method: "DELETE",
+    });
+    if (!response.ok) {
+      return toast.error(
+        "Erro ao deletar a tarefa. Por favor, tente novamente."
+      );
+    }
     const newTasks = tasks.filter((task) => task.id !== taskId);
 
     setTasks(newTasks);
