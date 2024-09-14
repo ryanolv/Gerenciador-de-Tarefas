@@ -15,7 +15,8 @@ import AddTaskDialog from "./AddTaskDialog";
 
 function Tasks() {
   const [tasks, setTasks] = useState<TasksProps[]>([]);
-  const [addTaskDialogIsOpen, setAddTaskDialogIsOpen] = useState(false);
+  const [addTaskDialogIsOpen, setAddTaskDialogIsOpen] =
+    useState<boolean>(false);
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -62,17 +63,8 @@ function Tasks() {
     setTasks(newTasks);
   };
 
-  const handleTaskDeleteClick = async (taskId: number | string) => {
-    const response = await fetch(`http://localhost:3000/tasks/${taskId}`, {
-      method: "DELETE",
-    });
-    if (!response.ok) {
-      return toast.error(
-        "Erro ao deletar a tarefa. Por favor, tente novamente."
-      );
-    }
+  const onDeleteTaskSuccess = async (taskId: string) => {
     const newTasks = tasks.filter((task) => task.id !== taskId);
-
     setTasks(newTasks);
     toast.success("Tarefa deletada com sucesso!");
   };
@@ -128,7 +120,7 @@ function Tasks() {
               key={task.id}
               task={task}
               handleCheckboxClick={handleTaskCheckboxClick}
-              handleDeleteClick={handleTaskDeleteClick}
+              onDeleteSuccess={onDeleteTaskSuccess}
             />
           ))}
         </div>
@@ -140,7 +132,7 @@ function Tasks() {
               key={task.id}
               task={task}
               handleCheckboxClick={handleTaskCheckboxClick}
-              handleDeleteClick={handleTaskDeleteClick}
+              onDeleteSuccess={onDeleteTaskSuccess}
             />
           ))}
         </div>
@@ -152,7 +144,7 @@ function Tasks() {
               key={task.id}
               task={task}
               handleCheckboxClick={handleTaskCheckboxClick}
-              handleDeleteClick={handleTaskDeleteClick}
+              onDeleteSuccess={onDeleteTaskSuccess}
             />
           ))}
         </div>
