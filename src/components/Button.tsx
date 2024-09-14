@@ -1,12 +1,11 @@
 import React from "react";
 import { tv } from "tailwind-variants";
 
-interface ButtonProps {
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
   color?: "primary" | "secundary" | "ghost";
   size?: "small" | "large";
   className?: any;
-  onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
 function Button({
@@ -14,7 +13,7 @@ function Button({
   color = "primary",
   size = "small",
   className,
-  onClick,
+  ...rest
 }: ButtonProps) {
   const button = tv({
     base: "flex items-center justify-center gap-2 rounded-md px-3 transition hover:opacity-90",
@@ -36,7 +35,7 @@ function Button({
   });
 
   return (
-    <button className={button({ color, size, className })} onClick={onClick}>
+    <button className={button({ color, size, className })} {...rest}>
       {children}
     </button>
   );
