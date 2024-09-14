@@ -143,11 +143,6 @@ function AddTaskDialog({
                   ref={timeRef}
                   disabled={submitIsLoading}
                 />
-                {timeError && (
-                  <p className="text-left text-xs text-red-500">
-                    {timeError.message}
-                  </p>
-                )}
 
                 <Input
                   id="description"
