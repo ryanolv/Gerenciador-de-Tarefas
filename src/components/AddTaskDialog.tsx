@@ -10,11 +10,13 @@ import Input from "./Input";
 import TimeSelect from "./TimeSelect";
 
 import { TasksProps } from "../constants/tasks";
+import { LoaderIcon } from "../assets/icons";
 
 interface AddTaskDialogProps {
   isOpen: boolean;
   handleClose: () => void;
-  handleSubmit: (task: TasksProps) => void;
+  onSubmitSuccess: (task: TasksProps) => void;
+  onSubmitError: () => void;
 }
 
 interface ErrorProps {
@@ -25,16 +27,31 @@ interface ErrorProps {
 function AddTaskDialog({
   isOpen,
   handleClose,
-  handleSubmit,
+  onSubmitSuccess,
+  onSubmitError,
 }: AddTaskDialogProps) {
   const [errors, setErrors] = useState<ErrorProps[]>([]);
+  const [submitIsLoading, setSubmitIsLoading] = useState<boolean>(false);
 
   const nodeRef = useRef<HTMLInputElement>(null);
   const titleRef = useRef<HTMLInputElement>(null);
   const descriptionRef = useRef<HTMLInputElement>(null);
   const timeRef = useRef<HTMLSelectElement>(null);
 
-  // if (!isOpen) return null;
+  const handleSubmit = async (task: TasksProps) => {
+    setSubmitIsLoading(true);
+    const response = await fetch("http://localhost:3000/tasks", {
+      method: "POST",
+      body: JSON.stringify(task),
+    });
+    if (!response.ok) {
+      setSubmitIsLoading(false);
+      onSubmitError();
+    }
+
+    onSubmitSuccess(task);
+    setSubmitIsLoading(false);
+  };
 
   const handleSaveClick = () => {
     const newErrors: ErrorProps[] = [];
@@ -118,9 +135,14 @@ function AddTaskDialog({
                   placeholder="Insira o título da tarefa"
                   errorMessage={titleError?.message}
                   ref={titleRef}
+                  disabled={submitIsLoading}
                 />
 
-                <TimeSelect errorMessage={timeError?.message} ref={timeRef} />
+                <TimeSelect
+                  errorMessage={timeError?.message}
+                  ref={timeRef}
+                  disabled={submitIsLoading}
+                />
                 {timeError && (
                   <p className="text-left text-xs text-red-500">
                     {timeError.message}
@@ -133,6 +155,7 @@ function AddTaskDialog({
                   placeholder="Descreva a tarefa"
                   errorMessage={descriptionError?.message}
                   ref={descriptionRef}
+                  disabled={submitIsLoading}
                 />
 
                 <div className="flex gap-3">
@@ -148,7 +171,9 @@ function AddTaskDialog({
                     size="large"
                     className="w-full"
                     onClick={handleSaveClick}
+                    disabled={submitIsLoading}
                   >
+                    {submitIsLoading && <LoaderIcon className="animate-spin" />}
                     Salvar
                   </Button>
                 </div>
