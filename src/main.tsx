@@ -6,6 +6,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import App from "./App.tsx";
 import TaskDetailsPage from "./pages/task-details.tsx";
+import { Toaster } from "sonner";
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,13 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
+    <Toaster
+      toastOptions={{
+        style: {
+          color: "#35383E",
+        },
+      }}
+    />
     <RouterProvider router={router} />
   </StrictMode>
 );
