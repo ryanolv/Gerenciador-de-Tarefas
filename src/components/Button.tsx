@@ -3,7 +3,7 @@ import { tv } from "tailwind-variants";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
-  color?: "primary" | "secundary" | "ghost";
+  color?: "primary" | "secundary" | "ghost" | "danger";
   size?: "small" | "large";
   className?: any;
 }
@@ -22,6 +22,7 @@ function Button({
         primary: "bg-brand-primary text-white",
         ghost: "bg-transparent text-brand-dark-gray",
         secundary: "bg-brand-light-gray text-brand-dark-blue",
+        danger: "bg-brand-danger text-white",
       },
       size: {
         small: "py-1 text-xs",
