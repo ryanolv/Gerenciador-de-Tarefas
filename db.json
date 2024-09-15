@@ -1,12 +1,11 @@
 {
   "tasks": [
     {
-      "status": "done",
-      "id": "39fd09fd-80d0-4aae-8631-944bba25f015"
-    },
-    {
-      "status": "in_progress",
-      "id": "7ee19661-c09d-4986-a27c-49868daceb15"
+      "id": "78d95489-fe8b-461b-a61f-1ba9efc8229d",
+      "title": "Fazer KPI",
+      "time": "evening",
+      "description": "Fazer o KPI com Renato às 19h",
+      "status": "not_started"
     }
   ]
 }
