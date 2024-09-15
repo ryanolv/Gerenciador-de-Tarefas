@@ -1,6 +1,6 @@
 import "./AddTaskDialog.css";
 
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { createPortal } from "react-dom";
 import { CSSTransition } from "react-transition-group";
 import { v4 } from "uuid";
@@ -11,6 +11,7 @@ import TimeSelect from "./TimeSelect";
 
 import { TasksProps } from "../constants/tasks";
 import { LoaderIcon } from "../assets/icons";
+import { useForm } from "react-hook-form";
 
 interface AddTaskDialogProps {
   isOpen: boolean;
@@ -19,9 +20,10 @@ interface AddTaskDialogProps {
   onSubmitError: () => void;
 }
 
-interface ErrorProps {
-  inputName: string;
-  message: string;
+interface IFormInput {
+  title: string;
+  time: string;
+  description: string;
 }
 
 function AddTaskDialog({
@@ -30,81 +32,41 @@ function AddTaskDialog({
   onSubmitSuccess,
   onSubmitError,
 }: AddTaskDialogProps) {
-  const [errors, setErrors] = useState<ErrorProps[]>([]);
-  const [submitIsLoading, setSubmitIsLoading] = useState<boolean>(false);
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<IFormInput>({
+    defaultValues: { title: "", time: "morning", description: "" },
+  });
 
   const nodeRef = useRef<HTMLInputElement>(null);
-  const titleRef = useRef<HTMLInputElement>(null);
-  const descriptionRef = useRef<HTMLInputElement>(null);
-  const timeRef = useRef<HTMLSelectElement>(null);
 
-  const handleSubmit = async (task: TasksProps) => {
-    setSubmitIsLoading(true);
-    const response = await fetch("http://localhost:3000/tasks", {
-      method: "POST",
-      body: JSON.stringify(task),
-    });
-    if (!response.ok) {
-      setSubmitIsLoading(false);
-      onSubmitError();
-    }
+  const handleSaveClick = async (data: IFormInput) => {
+    const title = data.title;
+    const description = data.description;
+    const time = data.time;
 
-    onSubmitSuccess(task);
-    setSubmitIsLoading(false);
-  };
-
-  const handleSaveClick = () => {
-    const newErrors: ErrorProps[] = [];
-
-    const title = titleRef.current!.value;
-    const description = descriptionRef.current!.value;
-    const time = timeRef.current!.value;
-
-    if (!title.trim()) {
-      newErrors.push({
-        inputName: "title",
-        message: "O título é obrigatório",
-      });
-    }
-
-    if (!time.trim()) {
-      newErrors.push({
-        inputName: "time",
-        message: "O horário é obrigatório",
-      });
-    }
-
-    if (!description.trim()) {
-      newErrors.push({
-        inputName: "description",
-        message: "A descrição é obrigatório",
-      });
-    }
-
-    setErrors(newErrors);
-    if (newErrors.length > 0) {
-      return;
-    }
-
-    handleSubmit({
+    const newTask: TasksProps = {
       id: v4(),
       title,
       time,
       description,
       status: "not_started",
+    };
+
+    const response = await fetch("http://localhost:3000/tasks", {
+      method: "POST",
+      body: JSON.stringify(newTask),
     });
+    if (!response.ok) {
+      onSubmitError();
+    }
+    onSubmitSuccess(newTask);
+    reset();
     handleClose();
   };
-
-  const titleError = errors.find(
-    (error: ErrorProps) => error.inputName === "title"
-  );
-  const timeError = errors.find(
-    (error: ErrorProps) => error.inputName === "time"
-  );
-  const descriptionError = errors.find(
-    (error: ErrorProps) => error.inputName === "description"
-  );
 
   return (
     <CSSTransition
@@ -128,29 +90,48 @@ function AddTaskDialog({
                 Insira as informações abaixo
               </p>
 
-              <div className="flex w-[336px] flex-col space-y-4">
+              <form
+                className="flex w-[336px] flex-col space-y-4"
+                onSubmit={handleSubmit(handleSaveClick)}
+              >
                 <Input
                   id="title"
                   label="Título"
                   placeholder="Insira o título da tarefa"
-                  errorMessage={titleError?.message}
-                  ref={titleRef}
-                  disabled={submitIsLoading}
+                  {...register("title", {
+                    required: "O título é obrigatório.",
+                  })}
+                  errorMessage={
+                    typeof errors?.title?.message === "string"
+                      ? errors.title.message
+                      : ""
+                  }
+                  disabled={isSubmitting}
                 />
 
                 <TimeSelect
-                  errorMessage={timeError?.message}
-                  ref={timeRef}
-                  disabled={submitIsLoading}
+                  {...register("time", { required: "O horário é obrigatório" })}
+                  errorMessage={
+                    typeof errors?.time?.message === "string"
+                      ? errors.time.message
+                      : ""
+                  }
+                  disabled={isSubmitting}
                 />
 
                 <Input
                   id="description"
                   label="Descrição"
                   placeholder="Descreva a tarefa"
-                  errorMessage={descriptionError?.message}
-                  ref={descriptionRef}
-                  disabled={submitIsLoading}
+                  {...register("description", {
+                    required: "A descrição é obrigatória.",
+                  })}
+                  errorMessage={
+                    typeof errors?.description?.message === "string"
+                      ? errors.description.message
+                      : ""
+                  }
+                  disabled={isSubmitting}
                 />
 
                 <div className="flex gap-3">
@@ -158,21 +139,25 @@ function AddTaskDialog({
                     color="secundary"
                     size="large"
                     className="w-full"
-                    onClick={handleClose}
+                    type="button"
+                    onClick={() => {
+                      reset();
+                      handleClose();
+                    }}
                   >
                     Cancelar
                   </Button>
                   <Button
                     size="large"
                     className="w-full"
-                    onClick={handleSaveClick}
-                    disabled={submitIsLoading}
+                    type="submit"
+                    disabled={isSubmitting}
                   >
-                    {submitIsLoading && <LoaderIcon className="animate-spin" />}
+                    {isSubmitting && <LoaderIcon className="animate-spin" />}
                     Salvar
                   </Button>
                 </div>
-              </div>
+              </form>
             </div>
           </div>,
           document.body
