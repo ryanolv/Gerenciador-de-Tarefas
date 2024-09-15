@@ -8,108 +8,25 @@
       "status": "not_started"
     },
     {
-      "id": "d87ef144-e766-4a32-bed5-5747c4adac04",
-      "title": "sgdvcb",
+      "status": "done",
+      "id": "39fd09fd-80d0-4aae-8631-944bba25f015"
+    },
+    {
+      "status": "in_progress",
+      "id": "7ee19661-c09d-4986-a27c-49868daceb15"
+    },
+    {
+      "id": "2744f887-9156-44ed-9966-d2b090be83e3",
+      "title": "ler um livro",
+      "time": "morning",
+      "description": "trinta minutos lendo livro",
+      "status": "not_started"
+    },
+    {
+      "id": "e3107caf-bb9a-4c6e-a555-f72d71e75efb",
+      "title": "Estudar React",
       "time": "afternoon",
-      "description": "tshaeth",
-      "status": "not_started"
-    },
-    {
-      "id": "96a2e310-2be5-496b-bd31-1404904eeca2",
-      "title": "sgdvcb",
-      "time": "afternoon",
-      "description": "tshaeth",
-      "status": "not_started"
-    },
-    {
-      "id": "37b0937f-d763-467b-8060-819dc2a28102",
-      "title": "sgdvcb",
-      "time": "afternoon",
-      "description": "tshaeth",
-      "status": "not_started"
-    },
-    {
-      "id": "39fd09fd-80d0-4aae-8631-944bba25f015",
-      "title": "ewwrt",
-      "time": "afternoon",
-      "description": "ssdvcxr",
-      "status": "not_started"
-    },
-    {
-      "id": "9c6a6b33-21c8-44c6-bf32-9790bc84caa0",
-      "title": "wfrgr",
-      "time": "morning",
-      "description": "cvreg",
-      "status": "not_started"
-    },
-    {
-      "id": "9eda3714-b67f-49e0-ab6f-e7445d5a2ad9",
-      "title": "ewwgr",
-      "time": "morning",
-      "description": "fg",
-      "status": "not_started"
-    },
-    {
-      "id": "bb590e03-c8d2-47cb-bae3-2b0bdd7456fd",
-      "title": "wrefv",
-      "time": "morning",
-      "description": "frg",
-      "status": "not_started"
-    },
-    {
-      "id": "da557c14-48af-4e82-866f-63d25496ec46",
-      "title": "freagr",
-      "time": "morning",
-      "description": "verqege",
-      "status": "not_started"
-    },
-    {
-      "id": "71dff6be-e659-42f1-b88f-33d46c8239d4",
-      "title": "rgdge",
-      "time": "morning",
-      "description": "dfthw",
-      "status": "not_started"
-    },
-    {
-      "id": "e7cb0310-f3a8-40f8-a1d3-df43c18146a0",
-      "title": "dfe",
-      "time": "morning",
-      "description": "bgtht",
-      "status": "not_started"
-    },
-    {
-      "id": "df7f60ed-0f37-4b38-9b24-33b2c1180f6a",
-      "title": "sdsrw",
-      "time": "morning",
-      "description": "vsrgr",
-      "status": "not_started"
-    },
-    {
-      "id": "3b6936c8-d298-4cb4-b51c-52dd072972e4",
-      "title": "gregreq",
-      "time": "morning",
-      "description": "fdvegegq",
-      "status": "not_started"
-    },
-    {
-      "id": "e6b00fcd-c95d-4200-91a1-075f04e3b47c",
-      "title": "vdfgregr",
-      "time": "morning",
-      "description": "cvegrrq",
-      "status": "not_started"
-    },
-    {
-      "id": "6d567439-eaca-43d4-9900-ae964300767a",
-      "title": "rvagea",
-      "time": "morning",
-      "description": "cvcgregr",
-      "status": "not_started"
-    },
-    {
-      "id": "3e9e7ec0-beff-4261-bfd5-f058652a9c07",
-      "title": "rgergq",
-      "time": "afternoon",
-      "description": "fdgreqerh",
+      "description": "Estudar React pelo Full Stack Club",
       "status": "not_started"
     }
   ]

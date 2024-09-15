@@ -1,8 +1,10 @@
 import { TasksProps } from "../constants/tasks";
-import { CheckIcon, LoaderIcon, DetailsIcon, TrashIcon } from "../assets/icons";
-import Button from "./Button";
 import { useState } from "react";
 import { toast } from "sonner";
+import { Link } from "react-router-dom";
+
+import { CheckIcon, LoaderIcon, DetailsIcon, TrashIcon } from "../assets/icons";
+import Button from "./Button";
 
 interface TaskItemProps {
   task: TasksProps;
@@ -83,9 +85,9 @@ function TaskItem({
             <TrashIcon className="text-brand-text-gray" />
           )}
         </Button>
-        <a href="" className="hover:opacity-75">
+        <Link to={`/tasks/${task.id}`} className="hover:opacity-75">
           <DetailsIcon />
-        </a>
+        </Link>
       </div>
     </div>
   );
