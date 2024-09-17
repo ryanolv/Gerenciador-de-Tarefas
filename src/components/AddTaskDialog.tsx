@@ -1,6 +1,7 @@
 import "./AddTaskDialog.css";
 
 import { useRef } from "react";
+import { useForm } from "react-hook-form";
 import { createPortal } from "react-dom";
 import { CSSTransition } from "react-transition-group";
 import { v4 } from "uuid";
@@ -11,13 +12,12 @@ import TimeSelect from "./TimeSelect";
 
 import { TasksProps } from "../constants/tasks";
 import { LoaderIcon } from "../assets/icons";
-import { useForm } from "react-hook-form";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 interface AddTaskDialogProps {
   isOpen: boolean;
   handleClose: () => void;
-  onSubmitSuccess: (task: TasksProps) => void;
-  onSubmitError: () => void;
 }
 
 interface IFormInput {
@@ -26,12 +26,23 @@ interface IFormInput {
   description: string;
 }
 
-function AddTaskDialog({
-  isOpen,
-  handleClose,
-  onSubmitSuccess,
-  onSubmitError,
-}: AddTaskDialogProps) {
+function AddTaskDialog({ isOpen, handleClose }: AddTaskDialogProps) {
+  const queryClient = useQueryClient();
+
+  const { mutate } = useMutation({
+    mutationKey: ["createTask"],
+    mutationFn: async (newTask: TasksProps) => {
+      const response = await fetch("http://localhost:3000/tasks", {
+        method: "POST",
+        body: JSON.stringify(newTask),
+      });
+      if (!response.ok) {
+        return toast.error("Erro ao criar tarefa. Tente novamente!");
+      }
+      return response.json();
+    },
+  });
+
   const {
     register,
     handleSubmit,
@@ -56,16 +67,19 @@ function AddTaskDialog({
       status: "not_started",
     };
 
-    const response = await fetch("http://localhost:3000/tasks", {
-      method: "POST",
-      body: JSON.stringify(newTask),
+    mutate(newTask, {
+      onSuccess: () => {
+        queryClient.setQueryData<TasksProps[]>(["tasks"], (currentTasks) => {
+          return [...(currentTasks || []), newTask];
+        });
+        toast.success("Tarefa adicionada com sucesso!");
+        handleClose();
+        reset();
+      },
+      onError: () => {
+        toast.error("Erro ao criar tarefa. Tente novamente!");
+      },
     });
-    if (!response.ok) {
-      onSubmitError();
-    }
-    onSubmitSuccess(newTask);
-    reset();
-    handleClose();
   };
 
   return (

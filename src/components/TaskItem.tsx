@@ -1,37 +1,42 @@
 import { TasksProps } from "../constants/tasks";
-import { useState } from "react";
 import { toast } from "sonner";
 import { Link } from "react-router-dom";
 
 import { CheckIcon, LoaderIcon, DetailsIcon, TrashIcon } from "../assets/icons";
 import Button from "./Button";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface TaskItemProps {
   task: TasksProps;
   handleCheckboxClick: (taskId: string) => void;
-  onDeleteSuccess: (taskId: string) => void;
 }
 
-function TaskItem({
-  task,
-  handleCheckboxClick,
-  onDeleteSuccess,
-}: TaskItemProps) {
-  const [deleteIsLoading, setDeleteIsLoading] = useState<boolean>(false);
+function TaskItem({ task, handleCheckboxClick }: TaskItemProps) {
+  const queryClient = useQueryClient();
+  const { mutate, isPending } = useMutation({
+    mutationKey: ["deleteTask", task.id],
+    mutationFn: async () => {
+      const response = await fetch(`http://localhost:3000/tasks/${task.id}`, {
+        method: "DELETE",
+      });
+      if (!response.ok) throw new Error();
+      return response.json();
+    },
+  });
 
   const handleDeleteClick = async () => {
-    setDeleteIsLoading(true);
-    const response = await fetch(`http://localhost:3000/tasks/${task.id}`, {
-      method: "DELETE",
+    mutate(undefined, {
+      onSuccess: () => {
+        queryClient.setQueryData<TasksProps[]>(["tasks"], (currentTasks) => {
+          return currentTasks?.filter(
+            (oldTask: TasksProps) => oldTask.id !== task.id
+          );
+        });
+      },
+      onError: () => {
+        toast.error("Erro ao deletar a tarefa. Por favor, tente novamente.");
+      },
     });
-    if (!response.ok) {
-      setDeleteIsLoading(false);
-      return toast.error(
-        "Erro ao deletar a tarefa. Por favor, tente novamente."
-      );
-    }
-    onDeleteSuccess(task.id);
-    setDeleteIsLoading(false);
   };
 
   const getStatusClasses = () => {
@@ -74,12 +79,8 @@ function TaskItem({
       </div>
 
       <div className="flex items-center gap-2">
-        <Button
-          color="ghost"
-          onClick={handleDeleteClick}
-          disabled={deleteIsLoading}
-        >
-          {deleteIsLoading ? (
+        <Button color="ghost" onClick={handleDeleteClick} disabled={isPending}>
+          {isPending ? (
             <LoaderIcon className="animate-spin" />
           ) : (
             <TrashIcon className="text-brand-text-gray" />
