@@ -12,8 +12,8 @@ import TimeSelect from "./TimeSelect";
 
 import { TasksProps } from "../constants/tasks";
 import { LoaderIcon } from "../assets/icons";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
+import useAddTask from "../hooks/data/use-add-task";
 
 interface AddTaskDialogProps {
   isOpen: boolean;
@@ -27,21 +27,7 @@ interface IFormInput {
 }
 
 function AddTaskDialog({ isOpen, handleClose }: AddTaskDialogProps) {
-  const queryClient = useQueryClient();
-
-  const { mutate } = useMutation({
-    mutationKey: ["createTask"],
-    mutationFn: async (newTask: TasksProps) => {
-      const response = await fetch("http://localhost:3000/tasks", {
-        method: "POST",
-        body: JSON.stringify(newTask),
-      });
-      if (!response.ok) {
-        return toast.error("Erro ao criar tarefa. Tente novamente!");
-      }
-      return response.json();
-    },
-  });
+  const { mutate: addTask } = useAddTask();
 
   const {
     register,
@@ -67,11 +53,8 @@ function AddTaskDialog({ isOpen, handleClose }: AddTaskDialogProps) {
       status: "not_started",
     };
 
-    mutate(newTask, {
+    addTask(newTask, {
       onSuccess: () => {
-        queryClient.setQueryData<TasksProps[]>(["tasks"], (currentTasks) => {
-          return [...(currentTasks || []), newTask];
-        });
         toast.success("Tarefa adicionada com sucesso!");
         handleClose();
         reset();

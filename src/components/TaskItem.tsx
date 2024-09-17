@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 import { CheckIcon, LoaderIcon, DetailsIcon, TrashIcon } from "../assets/icons";
 import Button from "./Button";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import useDeleteTask from "../hooks/data/use-delete-task";
 
 interface TaskItemProps {
   task: TasksProps;
@@ -12,26 +12,11 @@ interface TaskItemProps {
 }
 
 function TaskItem({ task, handleCheckboxClick }: TaskItemProps) {
-  const queryClient = useQueryClient();
-  const { mutate, isPending } = useMutation({
-    mutationKey: ["deleteTask", task.id],
-    mutationFn: async () => {
-      const response = await fetch(`http://localhost:3000/tasks/${task.id}`, {
-        method: "DELETE",
-      });
-      if (!response.ok) throw new Error();
-      return response.json();
-    },
-  });
-
+  const { mutate: deleteTask, isPending } = useDeleteTask(task.id);
   const handleDeleteClick = async () => {
-    mutate(undefined, {
+    deleteTask(undefined, {
       onSuccess: () => {
-        queryClient.setQueryData<TasksProps[]>(["tasks"], (currentTasks) => {
-          return currentTasks?.filter(
-            (oldTask: TasksProps) => oldTask.id !== task.id
-          );
-        });
+        toast.success("Tarefa deletada com sucesso!");
       },
       onError: () => {
         toast.error("Erro ao deletar a tarefa. Por favor, tente novamente.");
